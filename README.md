@@ -6,9 +6,7 @@ Symfony project 5.4
 -------------------
   * **NOTE**
   This project is build using **docker** you need to install docker before installation process.
-  ``` bash
-  $ composer update
-  ```
+
 # Installation
 
 * Install external packaged
