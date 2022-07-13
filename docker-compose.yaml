@@ -1,0 +1,46 @@
+version: '3'
+
+networks:
+    api:
+
+services:
+    nginx-service:
+        image: nginx:stable-alpine
+        container_name: api-nginx-container
+        ports:
+            - "${NGINX_HOST_HTTP_PORT}:80"
+        volumes:
+            - ./:/var/www/html
+            - ./.docker/nginx/dev/api.test.conf:/etc/nginx/conf.d/api.test.conf
+        depends_on:
+            -   php7.4-service
+        networks:
+            - api
+
+    php7.4-service:
+        container_name: api-php-container
+        build:
+            context: .
+            dockerfile: ./.docker/php/Dockerfile
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./:/var/www/html
+            - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
+        networks:
+            - api
+
+    mysql-service:
+        image: mysql:5.7
+        container_name: api-mysql-container
+        ports:
+            - "${MYSQL_PORT}:3306"
+        volumes:
+            - "./.docker/data/mysql:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: api
+            MYSQL_DATABASE: api
+            MYSQL_USER: api
+            MYSQL_PASSWORD: api
+        networks:
+            - api
