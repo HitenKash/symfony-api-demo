@@ -22,6 +22,9 @@ $ docker-compose up -d
 ``` bash
 Add 127.0.0.1 dev.api.local in you host file
 ```
+* **NOTE**
+Please add email credentials in .env  **MAILER_FROM_EMAIL** **MAILER_DSN**.
+  
 ## For swagger 
 In our case the post is 8082
 ``` bash
