@@ -32,7 +32,7 @@ http://dev.api.local:{{ port defined in env}}/api/doc
 
 * **Install Git Hook**
 ``` bash
-$ bash dev-tools/install-hooks.sh
+
 ```
 This will install an hook in your local .git `.git/hooks/pre-commit`. Each time you make a commit, the `ci-integration.sh` script will be executed.
 
