@@ -11,14 +11,14 @@ class ExceptionListener
 {
     public function onKernelException(ExceptionEvent $event)
     {
-/*        // You get the exception object from the received event
+        // You get the exception object from the received event
         $exception = $event->getThrowable();
 
         // Customize your response object to display the exception details
         $response = new JsonResponse([
-            'message'       => $exception->getMessage(),
+            'message'       => json_decode($exception->getMessage(),true),
             'code'          => $exception->getCode(),
-            'traces'        => $exception->getTrace()
+            //'traces'        => $exception->getTrace()
         ]);
 
         if ($exception instanceof HttpExceptionInterface) {
@@ -29,6 +29,6 @@ class ExceptionListener
         }
         // sends the modified response object to the event
         $event->setResponse($response);
-*/
+
     }
 }
