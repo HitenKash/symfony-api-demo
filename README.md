@@ -43,5 +43,5 @@ $ docker exec -it api-php-container bash
 ```
 * Run tests for the specific class
 ``` bash
-$ ./vendor/bin/phpunit 
+$ php bin/phpunit
 ```
