@@ -15,6 +15,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\Request;
 use App\Util\MovieRequestUtil;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Psr\Log\LoggerInterface;
 
 class MovieController extends AbstractController
 {
@@ -22,17 +25,23 @@ class MovieController extends AbstractController
     private $movieResponseUtil;
     private $token;
     private $requestUtil;
+    private $mailer;
+    private $logger;
 
     public function __construct(
         MoviesRepository $moviesRepository, 
         MovieResponseUtil $movieResponseUtil,
         TokenStorageInterface $token,
-        MovieRequestUtil $requestUtil
+        MovieRequestUtil $requestUtil,
+        MailerInterface $mailer,
+        LoggerInterface $logger
     ) {
         $this->movieResponseUtil = $movieResponseUtil;
         $this->moviesRepository = $moviesRepository;
         $this->token = $token;
         $this->requestUtil = $requestUtil;
+        $this->mailer = $mailer;
+        $this->logger = $logger;
     }
 
     /**
@@ -108,6 +117,7 @@ class MovieController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($movie);
         $entityManager->flush();
+        $this->sendEmail($movie);
         return new Response($this->movieResponseUtil->serialize($movie), 200, ['Content-Type' => 'application/json']);
     }
 
@@ -135,5 +145,18 @@ class MovieController extends AbstractController
                     ['createdBy' => $this->token->getToken()->getUser(), 'id' => $id ],
                     );
         return new Response($this->movieResponseUtil->serialize($movie), 200, ['Content-Type' => 'application/json']);
+    }
+
+    private function sendEmail(Movies $movie) {
+        try{
+            $email = (new TemplatedEmail())
+                ->from($this->getParameter('sender_email'))
+                ->to(new Address($movie->createdBy()->getEmail()))
+                ->subject('A new Movie Added!')
+                ->htmlTemplate('emails/movie.html.twig', $movie);
+            $this->mailer($email);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+        }
     }
 }

@@ -1,0 +1,19 @@
+{# templates/emails/signup.html.twig #}
+<h1>Hello {{ move.createdAt.name }}!</h1>
+
+<p>
+    A new movie is added below are the details:
+</p>
+<p>
+    <table>
+        <th><td>Name</td><td>Value</td></th>
+        <tr><td>Name</td><td>{{movie.name}}</td></tr>
+        <tr><td>Release Date</td><td>{{movie.release_date}}</td></tr>
+        <tr><td>Director</td><td>{{movie.director}}</td></tr>
+        <tr><td>Casts</td><td>{{ movie.casts|join(',') }}</td></tr>
+        <tr><td>Ratings</td><td>{{ movie.ratings|join(',') }}</td></tr>
+    </table>
+</p>
+<p>
+Thanks you!
+</p>
