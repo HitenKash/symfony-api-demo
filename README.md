@@ -19,10 +19,13 @@ $ cd symfony-api-demo
 ``` bash
 $ docker-compose up -d
 ```
-## For swagger 
-
 ``` bash
-http://127.0.0.1:8082/api/doc
+Add 127.0.0.1 dev.api.local in you host file
+```
+## For swagger 
+In our case the post is 8082
+``` bash
+http://dev.api.local:{{ port defined in env}}/api/doc
 ```
 
 # Continuous Integration
@@ -34,7 +37,10 @@ $ bash dev-tools/install-hooks.sh
 This will install an hook in your local .git `.git/hooks/pre-commit`. Each time you make a commit, the `ci-integration.sh` script will be executed.
 
 # PHP Unit Test
-
+* You need to login inside docker to run php unit tests
+``` bash
+$ docker exec -it api-php-container bash
+```
 * Run tests for the specific class
 ``` bash
 $ ./vendor/bin/phpunit 
