@@ -20,5 +20,17 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+    App\EventListener\PrePersistListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
+        arguments:
+            $nameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+            $propertyTypeExtractor: '@property_info.php_doc_extractor'
+        tags: [serializer.normalizer]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

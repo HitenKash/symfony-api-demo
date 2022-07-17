@@ -12,6 +12,7 @@ services:
         volumes:
             - ./:/var/www/html
             - ./.docker/nginx/dev/api.test.conf:/etc/nginx/conf.d/api.test.conf
+            - ./.docker/nginx/dev/nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             -   php7.4-service
         networks:
