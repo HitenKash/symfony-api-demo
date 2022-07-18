@@ -23,7 +23,7 @@ $ docker-compose up -d
 Add 127.0.0.1 dev.api.local in you host file
 ```
 * **NOTE**
-Please add email credentials in .env  **MAILER_FROM_EMAIL** **MAILER_DSN**.
+Please add email credentials in .env  **MAILER_FROM_EMAIL**, **MAILER_DSN**.
   
 ## For swagger 
 In our case the post is 8082
@@ -37,7 +37,6 @@ http://dev.api.local:{{ port defined in env}}/api/doc
 ``` bash
 
 ```
-This will install an hook in your local .git `.git/hooks/pre-commit`. Each time you make a commit, the `ci-integration.sh` script will be executed.
 
 # PHP Unit Test
 * You need to login inside docker to run php unit tests
